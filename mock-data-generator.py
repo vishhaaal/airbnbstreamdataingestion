@@ -11,7 +11,7 @@ def generate_booking_data():
     booking_id = str(uuid.uuid4())
     user_id = str(uuid.uuid4())
     property_id = str(uuid.uuid4())
-    location = f"{random.choice(['New York', 'London', 'Paris', 'Los Angeles'])}, {random.choice(['USA', 'UK', 'FRANCE'])}"
+    location = f"{random.choice(['New York', 'London', 'Paris'])}, {random.choice(['USA', 'UK', 'FRANCE'])}"
     start_date = (datetime.now() + timedelta(days=random.randint(1,30))).strftime('%Y-%m-%d')
     end_date = (datetime.strptime(start_date, '%Y-%m-%d') + timedelta(days=random.randint(0, 30))).strftime('%Y-%m-%d')
     price = '$' + str(round(random.uniform(50,5000), 2))
