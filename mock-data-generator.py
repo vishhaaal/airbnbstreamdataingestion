@@ -1,5 +1,5 @@
-import json
 import boto3
+import json
 import random
 import string
 import uuid
@@ -11,10 +11,10 @@ def generate_booking_data():
     booking_id = str(uuid.uuid4())
     user_id = str(uuid.uuid4())
     property_id = str(uuid.uuid4())
-    location = f"{random.choice(["New York", "London", "Paris", "Los Angeles"])}, {random.choice(["USA", "UK", "FRANCE"])}"
+    location = f"{random.choice(['New York', 'London', 'Paris', 'Los Angeles'])}, {random.choice(['USA', 'UK', 'FRANCE'])}"
     start_date = (datetime.now() + timedelta(days=random.randint(1,30))).strftime('%Y-%m-%d')
-    end_date = (datetime.now() + timedelta(days=random.randint(31,60))).strftime('%Y-%m-%d')
-    price = '$' + round(random.uniform(50,500), 2)
+    end_date = (datetime.strptime(start_date, '%Y-%m-%d') + timedelta(days=random.randint(0, 30))).strftime('%Y-%m-%d')
+    price = '$' + str(round(random.uniform(50,5000), 2))
 
     return {
         "bookingId" : booking_id,
@@ -28,8 +28,8 @@ def generate_booking_data():
 
 def publish_to_queue(data):
     response = sqs.send_message(
-        Queue_Url = 'https://sqs.ap-south-1.amazonaws.com/423736870603/AirbnbBookingQueue'
-        MessageBody = str(data)
+        QueueUrl = 'https://sqs.ap-south-1.amazonaws.com/423736870603/AirbnbBookingQueue',
+        MessageBody = json.dumps(data)
     )
     print(f"Message publish to queue: {response['MessageId']}")
 
